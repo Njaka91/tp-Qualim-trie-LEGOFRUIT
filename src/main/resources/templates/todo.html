@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Todo</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" />
+</head>
+
+<body class="p-2">
+  <div class="d-flex justify-content-between mb-3">
+    <h3 th:text="'Welcome, ' +  ${user.firstname} + ' ' + ${user.lastname}"></h3>
+    <a th:href="@{/user/logout}" class="btn btn-outline-primary">
+      <i class="ph ph-sign-out me-2"></i>
+      Sign out
+    </a>
+  </div>
+  <form action="/todo/add" method="post">
+    <div class="bg-warning text-white p-5">
+      <h3 class="text-center">Todo list</h3>
+      <div class="d-flex">
+        <input type="text" name="name" class="form-control rounded-0 p-3" placeholder="task..." required />
+        <button class="btn btn-secondary rounded-0 p-3 w-25">Add</button>
+      </div>
+    </div>
+  </form>
+  <div>
+    <table class="table table-striped table-hover">
+      <tbody>
+        <tr th:each="todo : ${listTodo}" class="p-0">
+          <td class="d-flex justify-content-between p-0">
+            <div class="w-100">
+              <a th:href="'/todo/togglestate/' + ${todo.id}" class="text-decoration-none d-flex p-3 task">
+                <span class="text-success me-3" th:if="${todo.isCompleted()}"><i class="ph ph-check"></i></span>
+                <span class="text-black">[[${todo.name}]]</span>
+              </a>
+            </div>
+            <div class="d-flex flex-column justify-content-center align-items-center pe-3">
+              <a class="btn btn-outline-danger rounded-circle border-0 p-2 delete" th:href="'/todo/delete/' + ${todo.id}">
+                <i class="ph ph-trash"></i>
+              </a>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <script src="https://unpkg.com/@phosphor-icons/web@2.1.1"></script>
+</body>
+
+</html>
